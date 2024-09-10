@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import ttk, filedialog, messagebox
 from PIL import Image, ImageTk
 import os
+import sys
 from split_function import split_pdf  # Importando a função de divisão de PDF
 from merge_function import merge_pdfs  # Importando a função de juntar PDFs
 from rotate_function import rotate_pages  # Função de rotação de PDF
@@ -69,12 +70,23 @@ def rotate_documents():
 
 # Função para carregar e redimensionar uma imagem
 def load_image(file_name, width, height):
-    if os.path.exists(file_name):  # Verifica se o arquivo existe
-        image = Image.open(file_name)
+    # Determinar o caminho correto no ambiente de desenvolvimento ou executável
+    if getattr(sys, 'frozen', False):
+        # Se o aplicativo estiver empacotado, usamos o sys._MEIPASS para encontrar os arquivos
+        base_path = sys._MEIPASS
+    else:
+        # No ambiente de desenvolvimento, usamos o caminho atual do sistema
+        base_path = os.path.abspath(".")
+    
+    icon_path = os.path.join(base_path, 'Images', file_name)
+
+    # Verifica se o arquivo de ícone existe
+    if os.path.exists(icon_path):
+        image = Image.open(icon_path)
         image = image.resize((width, height))
         return ImageTk.PhotoImage(image)
     else:
-        messagebox.showerror("Erro", f"Arquivo não encontrado: {file_name}")
+        messagebox.showerror("Erro", f"Arquivo não encontrado: {icon_path}")
         return None  # Retorna None caso o arquivo não exista
 
 # Criando a janela principal
@@ -94,25 +106,25 @@ lower_buttons_frame = tk.Frame(window)
 lower_buttons_frame.pack()
 
 # Carregando ícones
-convert_icon = load_image('Images/word.ico', 30, 30)
-merge_icon = load_image('Images/merge.ico', 30, 30)
-rotate_icon = load_image('Images/rotate.ico', 30, 30)
-split_icon = load_image('Images/split.ico', 30, 30)
+convert_icon = load_image('word.ico', 30, 30)
+merge_icon = load_image('merge.ico', 30, 30)
+rotate_icon = load_image('rotate.ico', 30, 30)
+split_icon = load_image('split.ico', 30, 30)
 
 # Botão para Converter PDF para Word
-convert_button = ttk.Button(upper_buttons_frame, text='Converter PDF para Word', image=convert_icon, compound=tk.LEFT, command=convert_rules, style='Button.TButton')
+convert_button = ttk.Button(upper_buttons_frame, text='PDF to Word', image=convert_icon, compound=tk.LEFT, command=convert_rules, style='Button.TButton')
 convert_button.pack(side=tk.LEFT, padx=5, pady=5)
 
 # Botão para Juntar PDFs
-merge_button = ttk.Button(upper_buttons_frame, text='Juntar PDFs', image=merge_icon, compound=tk.LEFT, command=merge_rules, style='Button.TButton')
+merge_button = ttk.Button(upper_buttons_frame, text='Merge', image=merge_icon, compound=tk.LEFT, command=merge_rules, style='Button.TButton')
 merge_button.pack(side=tk.LEFT, padx=5, pady=5)
 
 # Botão para Dividir PDFs (agora na parte inferior)
-split_button = ttk.Button(lower_buttons_frame, text='Dividir PDF', image=split_icon, compound=tk.LEFT, command=split_rules, style='Button.TButton')
+split_button = ttk.Button(lower_buttons_frame, text='Split', image=split_icon, compound=tk.LEFT, command=split_rules, style='Button.TButton')
 split_button.pack(side=tk.LEFT, padx=5, pady=5)
 
 # Botão para Rotacionar PDF
-rotate_button = ttk.Button(lower_buttons_frame, text='Girar PDF', image=rotate_icon, compound=tk.LEFT, command=rotate_documents, style='Button.TButton')
+rotate_button = ttk.Button(lower_buttons_frame, text='Rotate 90º', image=rotate_icon, compound=tk.LEFT, command=rotate_documents, style='Button.TButton')
 rotate_button.pack(side=tk.LEFT, padx=5, pady=5)
 
 # Mensagem de feedback

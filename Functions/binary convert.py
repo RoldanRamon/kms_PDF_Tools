@@ -1,1 +1,0 @@
-pyinstaller --onefile --hidden-import PyPDF2 --hidden-import fitz --hidden-import PIL --hidden-import pdf2docx --hidden-import tkinter --hidden-import jinja2 ".\Functions\app.py" -i ".\Images\pdf.ico"
