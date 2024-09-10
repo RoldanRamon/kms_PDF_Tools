@@ -1,4 +1,4 @@
-# 📝 PDF to DOCX Converter
+# 📝 PDF Tools
 
 🚀 This is a small but powerful Python project that allows users to convert PDF files to DOCX files using the `pdf2docx` library and a simple, user-friendly interface built with `Tkinter`.
 
