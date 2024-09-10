@@ -1,2 +1,4 @@
 *.exe filter=lfs diff=lfs merge=lfs -text
 *.pkg filter=lfs diff=lfs merge=lfs -text
+dist/app.exe filter=lfs diff=lfs merge=lfs -text
+build/app/app.pkg filter=lfs diff=lfs merge=lfs -text
